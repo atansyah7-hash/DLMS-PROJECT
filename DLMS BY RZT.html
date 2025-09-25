@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>My Code Project</title>
+    <style>
+/* --- Start Custom CSS --- */
+/* Welcome! Start your CSS here */
+/* This will be included in the <style> tags when you save the project */
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  background-color: #333;
+  color: #eee;
+}
+
+h1 {
+  color: #00bcd4; /* Cyan */
+}
+
+#my-box {
+  background-color: #444;
+  border: 1px solid #555;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* --- End Custom CSS --- */
+    </style>
+</head>
+<body>
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+<meta charset="utf-8" />
+
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<title>ERZET AUDIO – DLMS (Blue) v7 — No Noise + Polarity</title>
+
+<style>
+
+:root{
+
+  --panelA:#0b111b; --panelB:#0a0f16; --bezel:#152337;
+
+  --txt:#e8f1ff; --muted:#9fb3cc;
+
+  --lcdBg1:#031227; --lcdBg2:#020b17; --lcdEdge:#0e2748;
+
+  --lcdText:#dff1ff; --lcdHi:#93d4ff; --lcdDim:#6aa6d6; --lcdAccent:#b8f7ff;
+
+  --accent:#2ec5ff; --glow:#30d5ff;
+
+  --ledOn:#38d48f; --ledOff:#2a3c33;
+
+}
+
+*{box-sizing:border-box}
+
+html,body{height:100%;margin:0;background:radial-gradient(1200px 600px at 50% -200px,#0c1118 0%,#070b12 60%,#05080f 100%);color:var(--txt);font:14px/1.45 Inter,system-ui,Segoe UI,Roboto,Arial}
+
+.wrap{max-width:1180px;margin:0 auto;padding:16px}
+
+.frontpanel{position:relative;border-radius:22px;padding:16px;overflow:hidden;background:linear-gradient(160deg,var(--panelA) 0%,#0c1522 40%,var(--panelB) 60%,#101b2c 100%);border:1px solid var(--bezel);box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 20px 60px rgba(0,0,0,.55)}
+
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+
+.badge{font-weight:800;letter-spacing:.8px;padding:4px 10px;border-radius:999px;background:linear-gradient(90deg,#18d6ff,#6af0b0);color:#021417;box-shadow:0 0 16px rgba(43,212,255,.35)}
+
+.panel-grid{display:grid;grid-template-columns:700px 1fr 240px; gap:16px; align-items:stretch}
+
+@media(max-width:1100px){.panel-grid{grid-template-columns:1fr}}
+
+/* LCD */
+
+.lcd{position:relative;height:400px;border-radius:16px;padding:14px 16px 16px 16px;overflow:hidden;background:radial-gradient(120% 140% at 20% 10%,var(--lcdBg1) 0%,var(--lcdBg2) 55%,#010812 100%);border:1px solid var(--lcdEdge);box-shadow:inset 0 0 60px rgba(67,177,255,.16),0 10px 30px rgba(0,0,0,.45)}
+
+.scanline{position:absolute; inset:0; background:repeating-linear-gradient(180deg,rgba(255,255,255,.05) 0,rgba(255,255,255,.05) 1px,rgba(0,0,0,.12) 1px,rgba(0,0,0,.12) 3px); mix-blend-mode:overlay; pointer-events:none}
+
+.glow{position:absolute; inset:-20px; background:radial-gradient(60% 40% at 30% 0%,rgba(64,164,255,.22),transparent 60%); filter:blur(10px); pointer-events:none}
+
+.lcd-text{font-family:"IBM Plex Mono","OCR A Std",ui-monospace,monospace;color:var(--lcdText); text-shadow:0 0 6px rgba(64,164,255,.5)}
+
+.lcd-off{filter:grayscale(1) brightness(.4)}
+
+.lcd .top{display:flex;justify-content:space-between;font-size:12px}
+
+.lcd .mid{display:flex;align-items:stretch;gap:12px;height:290px;margin-top:8px}
+
+.lcd .main{flex:1;display:flex;align-items:center;justify-content:center;font-size:16px;letter-spacing:.4px;overflow:hidden}
+
+.main-inner{width:100%; height:100%; padding:6px 6px 0 6px}
+
+.right{width:150px;display:flex;flex-direction:column;gap:8px}
+
+.meters{flex:1;border:1px solid rgba(90,170,255,.25);border-radius:8px;background:rgba(10,22,40,.35);padding:8px}
+
+.mrow{display:flex;align-items:center;gap:6px;margin:6px 0}
+
+.mlbl{width:36px;font-size:11px;color:var(--lcdDim)}
+
+.mbar{flex:1;height:14px;border:1px solid rgba(90,170,255,.25);border-radius:8px;background:rgba(5,16,30,.5);overflow:hidden}
+
+.mbar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#66b8ff,#a6e0ff)}
+
+.rta{height:150px;border:1px solid rgba(90,170,255,.25);border-radius:8px;background:rgba(5,16,30,.35);overflow:hidden}
+
+.rta canvas{width:100%;height:100%}
+
+.lcd .bottom{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-top:8px}
+
+.selrow{display:flex;gap:10px;overflow:hidden;align-items:center;justify-content:center;flex-wrap:nowrap}
+
+.selchip{padding:8px 12px;border-radius:10px;border:1px solid rgba(120,190,255,.35); background:linear-gradient(180deg,rgba(10,30,55,.7),rgba(6,18,36,.7)); min-width:140px;text-align:center;opacity:.85}
+
+.selchip.active{border-color:rgba(160,220,255,.95);opacity:1; box-shadow:0 0 12px rgba(120,190,255,.45)}
+
+.hint{opacity:.85}
+
+/* EQ/XO canvas */
+
+.eqwrap,.xowrap{display:grid; grid-template-rows:1fr auto; gap:6px; height:100%}
+
+#eqCanvas,#xoCanvas{width:100%; height:100%; background:linear-gradient(180deg,rgba(10,26,46,.45),rgba(6,16,30,.35)); border:1px solid rgba(120,190,255,.3); border-radius:8px}
+
+.eqinfo,.xoinfo{display:flex; justify-content:space-between; font-size:12px; color:var(--lcdAccent)}
+
+/* controls & encoder */
+
+.controls{display:flex;gap:14px; align-items:center; flex-wrap:wrap}
+
+.power{display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px;background:linear-gradient(180deg,#0c1219,#0a0f14); border:1px solid #152132; box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+
+.switch{position:relative; width:64px; height:32px; border-radius:999px; background:#0a1118; border:1px solid #1a2a3d; box-shadow:inset 0 0 10px rgba(0,0,0,.6)}
+
+.switch input{appearance:none; width:100%; height:100%; margin:0; cursor:pointer}
+
+.switch .dot{position:absolute; top:3px; left:3px; width:26px; height:26px; border-radius:50%; background:linear-gradient(180deg,#e1f7ff,#9ad7ff); box-shadow:0 4px 10px rgba(0,0,0,.5)}
+
+.switch input:checked + .dot{left:35px; background:linear-gradient(180deg,#b7ffd7,#6ef2a9); box-shadow:0 0 12px rgba(99,255,180,.6)}
+
+.led{width:10px; height:10px; border-radius:50%; background:var(--ledOff); box-shadow:0 0 0 0 rgba(56,212,143,0)}
+
+.led.on{background:var(--ledOn); box-shadow:0 0 20px 2px rgba(56,212,143,.7)}
+
+.encoder{position:relative; width:170px; height:170px; border-radius:50%; background:conic-gradient(from 120deg, #203049, #0e1a2a 60%, #0a1120 100%); border:1px solid #182847; box-shadow:inset 0 10px 30px rgba(0,0,0,.6), 0 20px 40px rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; cursor:pointer}
+
+.encoder .cap{width:108px; height:108px; border-radius:50%; background:linear-gradient(180deg,#e1ebf8,#b8c7db 60%,#7d8ea5); border:1px solid #6a7c93; box-shadow:inset 0 2px 8px rgba(255,255,255,.5),inset 0 -6px 10px rgba(0,0,0,.35),0 10px 24px rgba(0,0,0,.35); transform:rotate(var(--rot,0deg)); transition:transform .08s ease-out}
+
+.encoder .marker{position:absolute; top:10px; width:4px; height:18px; border-radius:2px; background:#e6f1ff}
+
+.encoder .value{position:absolute; bottom:-8px; left:0; right:0; text-align:center; font-size:11px; color:#a9bfd6}
+
+/* buttons/dpad/back */
+
+.btn{background:#121820;border:1px solid #253043;color:var(--txt);padding:8px 10px;border-radius:10px;cursor:pointer; user-select:none}
+
+.btn:active{transform:translateY(1px)}
+
+.tiny{font-size:11px}
+
+.muted{color:var(--muted)}
+
+.navblock{display:flex; gap:16px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap}
+
+.dpad{display:grid; grid-template-columns:44px 44px 44px; grid-template-rows:44px 44px 44px; gap:8px; background:linear-gradient(180deg,#0c1219,#0a0f14); padding:12px; border-radius:14px; border:1px solid #152132; box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+
+.dpad .padbtn{width:44px; height:44px; border-radius:10px; border:1px solid #253043; background:linear-gradient(180deg,#151e2a,#0e141c); display:flex; align-items:center; justify-content:center; cursor:pointer; user-select:none; box-shadow:0 2px 8px rgba(0,0,0,.45)}
+
+.backbox{display:flex; flex-direction:column; gap:8px; align-items:center; justify-content:center; background:linear-gradient(180deg,#191219,#0f0a11); padding:14px; border-radius:16px; border:1px solid #2a1832; box-shadow:inset 0 1px 0 rgba(255,255,255,.05); min-width:160px}
+
+.backbtn{background:linear-gradient(180deg,#ff7a7a,#d23b3b); color:#220a0a; font-weight:800; border:1px solid #6d1818; border-radius:12px; padding:12px 22px; cursor:pointer; text-shadow:0 1px 0 rgba(255,255,255,.35); box-shadow:0 6px 16px rgba(255,50,50,.25), inset 0 1px 0 rgba(255,255,255,.25)}
+
+.backhint{font-size:11px; color:#ffb8b8; opacity:.9}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="frontpanel">
+
+    <div class="brand">
+
+      <span class="badge">ERZET AUDIO</span>
+
+      <span class="muted">Digital Loudspeaker Management</span>
+
+    </div>
+
+    <div class="panel-grid">
+
+      <!-- LCD BIG BLUE -->
+
+      <div>
+
+        <div class="lcd" id="lcd">
+
+          <div class="glow"></div><div class="scanline"></div>
+
+          <div class="lcd-text top"><span id="lcdL">INPUT: —</span><span id="lcdR">SAMPLE: 48 kHz</span></div>
+
+          <div class="mid">
+
+            <div class="main lcd-text"><div class="main-inner" id="lcdMID">POWER OFF</div></div>
+
+            <div class="right">
+
+              <div class="meters lcd-text">
+
+                <div style="font-size:12px;color:var(--lcdDim);margin-bottom:6px">LEVEL</div>
+
+                <div class="mrow"><div class="mlbl">LOW</div><div class="mbar"><i id="mLow"></i></div></div>
+
+                <div class="mrow"><div class="mlbl">MID</div><div class="mbar"><i id="mMid"></i></div></div>
+
+                <div class="mrow"><div class="mlbl">HIGH</div><div class="mbar"><i id="mHigh"></i></div></div>
+
+              </div>
+
+              <div class="rta"><canvas id="rta" width="420" height="150"></canvas></div>
+
+            </div>
+
+          </div>
+
+          <div class="lcd-text bottom"><span id="lcdB1">MODE: —</span><span id="lcdB2">—</span></div>
+
+        </div>
+
+        <!-- D-Pad + Back -->
+
+        <div class="navblock" style="margin-top:12px">
+
+          <div class="dpad" aria-label="D-Pad Navigation">
+
+            <div class="padspacer"></div>
+
+            <div class="padbtn" id="btnUp" title="Atas">▲</div>
+
+            <div class="padspacer"></div>
+
+            <div class="padbtn" id="btnLeft" title="Kiri">◀</div>
+
+            <div class="padbtn" id="btnOk" title="OK / Enter">OK</div>
+
+            <div class="padbtn" id="btnRight" title="Kanan">▶</div>
+
+            <div class="padspacer"></div>
+
+            <div class="padbtn" id="btnDown" title="Bawah">▼</div>
+
+            <div class="padspacer"></div>
+
+          </div>
+
+          <div class="backbox">
+
+            <button class="backbtn" id="btnBack" title="Back ke layar sebelumnya / Home">BACK</button>
+
+            <div class="backhint">
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Controls -->
+
+      <div class="controls">
+
+        <div class="power">
+
+          <div class="led" id="led"></div>
+
+          <div class="switch" title="Power">
+
+            <input type="checkbox" id="powerToggle">
+
+            <div class="dot"></div>
+
+          </div>
+
+          <div class="tiny muted" style="margin-left:6px">POWER</div>
+
+        </div>
+
+        <input id="fileInput" type="file" accept="audio/*" style="display:none">
+
+        <button class="btn tiny" id="btnPreset">Preset</button>
+
+        <button class="btn tiny" id="btnSave">Save</button>
+
+        <label class="btn tiny" for="presetFile">Load<input id="presetFile" type="file" accept="application/json" style="display:none"></label>
+
+      </div>
+
+      <!-- Encoder -->
+
+      <div style="display:flex;justify-content:center;align-items:center">
+
+        <div class="encoder" id="encoder" title="Putar: Navigasi/Adjust • Klik: OK/Enter • Tahan 1s: Back">
+
+          <div class="marker"></div>
+
+          <div class="cap" id="encCap"></div>
+
+          <div class="value" id="encVal">Fokus: —</div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <p class="tiny muted">Navigasi: Putar encoder (animasi), tombol arah (▲▼◀▶), klik knob = OK, tahan knob 1s = Back, tombol BACK fisik = Back cepat. Aktifkan POWER lalu pilih sumber.</p>
+
+</div>
+
+<script>
+
+(function(){
+
+  const $ = s => document.querySelector(s);
+
+  const db2gain = db => Math.pow(10, db/20);
+
+  const clamp = (v,min,max) => Math.min(max, Math.max(min, v));
+
+  const lin2db = v => 20*Math.log10(v||1e-12);
+
+  // ===== State =====
+
+  const state = {
+
+    power:false,
+
+    stereoLink:true,
+
+    ui:{ page:'boot', sub:'', idx:0, edit:false, cursor:0 },
+
+    source:{ mode:'none', fileName:'—' }, // none/file/mic
+
+    routing:{ low:'A', mid:'A', high:'A' },
+
+    eq:Array.from({length:8},(_,i)=>({f:[31,62,125,250,500,1000,2000,4000][i], g:0, q:1.1})),
+
+    xover:{ mode:'3way', slope:24, f1:120, f2:2600, type:'Linkwitz-Riley' },
+
+    out:{
+
+      low:{gain:0,delay:0,mute:false,solo:false, polarity:false},
+
+      mid:{gain:0,delay:0,mute:false,solo:false, polarity:false},
+
+      high:{gain:0,delay:0,mute:false,solo:false, polarity:false}
+
+    },
+
+    dyn:{ cmp:{ th:-14, ra:3, at:0.005, rl:0.15, kn:6 }, lim:{ th:-1, rl:0.05 } },
+
+    vol:{ sub:0, low:0, mid:0, high:0 }
+
+  };
+
+  const saved = localStorage.getItem('dlms-blue-v7');
+
+  if(saved) try{ Object.assign(state, JSON.parse(saved)); }catch(e){}
+
+  const save = ()=>localStorage.setItem('dlms-blue-v7', JSON.stringify(state));
+
+  // ===== UI elements =====
+
+  const led = $('#led'), powerToggle = $('#powerToggle'), lcd = $('#lcd');
+
+  const lcdL = $('#lcdL'), lcdR = $('#lcdR'), lcdMID = $('#lcdMID'), lcdB1 = $('#lcdB1'), lcdB2 = $('#lcdB2');
+
+  const enc = $('#encoder'), encCap = $('#encCap'), encVal = $('#encVal');
+
+  const rtaCanvas = $('#rta'), fileInput = $('#fileInput');
+
+  const btnPreset = $('#btnPreset'), btnSave = $('#btnSave'), presetFile = $('#presetFile');
+
+  const btnUp = $('#btnUp'), btnDown = $('#btnDown'), btnLeft = $('#btnLeft'), btnRight = $('#btnRight'), btnOk = $('#btnOk'), btnBack = $('#btnBack');
+
+  const mLow = $('#mLow'), mMid = $('#mMid'), mHigh = $('#mHigh');
+
+  // ===== WebAudio (stereo) =====
+
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+  let audioEl = null, srcFile = null, srcMic = null, splitFile = null;
+
+  let chInL = null, chInR = null;
+
+  let eqL = [], eqR = [], lowL = {}, midL = {}, highL = {}, lowR = {}, midR = {}, highR = {};
+
+  let compNode = null, limNode = null, merger = null, analyser = null;
+
+  function mkLR(ac, fc, type, stages, Q){
+
+    const list=[]; for(let i=0;i<stages;i++){ const f = ac.createBiquadFilter(); f.type = type; f.frequency.value = fc; f.Q.value = Q; list.push(f); }
+
+    for(let i=0;i<list.length-1;i++) list[i].connect(list[i+1]);
+
+    return { in:list[0], out:list[list.length-1], stages:list };
+
+  }
+
+  function makeEQChain(eqState){
+
+    const arr = eqState.map(b=>{
+
+      const n = ctx.createBiquadFilter(); n.type='peaking'; n.frequency.value=b.f; n.gain.value=b.g; n.Q.value=b.q; return n;
+
+    });
+
+    for(let i=0;i<arr.length-1;i++) arr[i].connect(arr[i+1]);
+
+    return arr;
+
+  }
+
+  function clearNode(n){ try{ n && n.disconnect(); }catch(e){} }
+
+  function buildBase(){
+
+    chInL = ctx.createGain(); chInR = ctx.createGain();
+
+    compNode = ctx.createDynamicsCompressor();
+
+    limNode = ctx.createDynamicsCompressor();
+
+    compNode.threshold.value = state.dyn.cmp.th; compNode.ratio.value = state.dyn.cmp.ra; compNode.attack.value = state.dyn.cmp.at; compNode.release.value = state.dyn.cmp.rl; compNode.knee.value = state.dyn.cmp.kn;
+
+    limNode.threshold.value = state.dyn.lim.th; limNode.ratio.value = 20; limNode.attack.value = 0.001; limNode.release.value = state.dyn.lim.rl || 0.05;
+
+    merger = ctx.createChannelMerger(2);
+
+    analyser = ctx.createAnalyser(); analyser.fftSize = 2048;
+
+    merger.connect(compNode).connect(limNode).connect(analyser).connect(ctx.destination);
+
+  }
+
+  function rebuildProcessing(){
+
+    // disconnect old
+
+    [lowL,midL,highL,lowR,midR,highR].forEach(obj=>{ for(const k in obj) clearNode(obj[k]); });
+
+    eqL.forEach(clearNode); eqR.forEach(clearNode);
+
+    eqL = makeEQChain(state.eq); eqR = makeEQChain(state.eq);
+
+    // XO staging
+
+    const slope = parseInt(state.xover.slope);
+
+    const stages = (slope===12)?1:(slope===24?2:4);
+
+    const Qmap = { 'Linkwitz-Riley': Math.SQRT1_2, 'Butterworth': 0.707, 'Bessel': 0.577 };
+
+    const Q = Qmap[state.xover.type] || Math.SQRT1_2;
+
+    // Low
+
+    lowL.lp = mkLR(ctx, state.xover.f1, 'lowpass', stages, Q);
+
+    lowR.lp = mkLR(ctx, state.xover.f1, 'lowpass', stages, Q);
+
+    lowL.delay = ctx.createDelay(1); lowR.delay = ctx.createDelay(1);
+
+    lowL.gain = ctx.createGain(); lowR.gain = ctx.createGain();
+
+    lowL.polarity = ctx.createGain(); lowR.polarity = ctx.createGain();
+
+    // Mid (if 3way)
+
+    if(state.xover.mode==='3way'){
+
+      midL.hp = mkLR(ctx, state.xover.f1, 'highpass', stages, Q);
+
+      midL.lp = mkLR(ctx, state.xover.f2, 'lowpass', stages, Q);
+
+      midR.hp = mkLR(ctx, state.xover.f1, 'highpass', stages, Q);
+
+      midR.lp = mkLR(ctx, state.xover.f2, 'lowpass', stages, Q);
+
+      midL.delay = ctx.createDelay(1); midR.delay = ctx.createDelay(1);
+
+      midL.gain = ctx.createGain(); midR.gain = ctx.createGain();
+
+      midL.polarity = ctx.createGain(); midR.polarity = ctx.createGain();
+
+    } else { midL = {}; midR = {}; }
+
+    // High
+
+    const fHigh = (state.xover.mode==='3way')? state.xover.f2 : state.xover.f1;
+
+    highL.hp = mkLR(ctx, fHigh, 'highpass', stages, Q);
+
+    highR.hp = mkLR(ctx, fHigh, 'highpass', stages, Q);
+
+    highL.delay = ctx.createDelay(1); highR.delay = ctx.createDelay(1);
+
+    highL.gain = ctx.createGain(); highR.gain = ctx.createGain();
+
+    highL.polarity = ctx.createGain(); highR.polarity = ctx.createGain();
+
+    // Connect chain: channel -> EQ -> bands -> delays -> gains -> polarity -> merger
+
+    // L channel
+
+    if(eqL[0]) chInL.connect(eqL[0]); if(eqL.length) eqL[eqL.length-1].connect(lowL.lp.in);
+
+    if(state.xover.mode==='3way'){ eqL[eqL.length-1].connect(midL.hp.in); }
+
+    eqL[eqL.length-1].connect(highL.hp.in);
+
+    lowL.lp.out.connect(lowL.delay).connect(lowL.gain).connect(lowL.polarity);
+
+    if(state.xover.mode==='3way'){ midL.hp.out.connect(midL.lp.in); midL.lp.out.connect(midL.delay).connect(midL.gain).connect(midL.polarity); }
+
+    highL.hp.out.connect(highL.delay).connect(highL.gain).connect(highL.polarity);
+
+    // R channel
+
+    if(eqR[0]) chInR.connect(eqR[0]); if(eqR.length) eqR[eqR.length-1].connect(lowR.lp.in);
+
+    if(state.xover.mode==='3way'){ eqR[eqR.length-1].connect(midR.hp.in); }
+
+    eqR[eqR.length-1].connect(highR.hp.in);
+
+    lowR.lp.out.connect(lowR.delay).connect(lowR.gain).connect(lowR.polarity);
+
+    if(state.xover.mode==='3way'){ midR.hp.out.connect(midR.lp.in); midR.lp.out.connect(midR.delay).connect(midR.gain).connect(midR.polarity); }
+
+    highR.hp.out.connect(highR.delay).connect(highR.gain).connect(highR.polarity);
+
+    // polarity -> merger channels
+
+    lowL.polarity.connect(merger, 0, 0);
+
+    if(state.xover.mode==='3way' && midL.polarity) midL.polarity.connect(merger, 0, 0);
+
+    highL.polarity.connect(merger, 0, 0);
+
+    lowR.polarity.connect(merger, 0, 1);
+
+    if(state.xover.mode==='3way' && midR.polarity) midR.polarity.connect(merger, 0, 1);
+
+    highR.polarity.connect(merger, 0, 1);
+
+    applyOutParams();
+
+  }
+
+  function applyOutParams(){
+
+    // Gains including volume page + polarity sign
+
+    const gLow = db2gain(state.out.low.gain + state.vol.low + state.vol.sub) * (state.out.low.mute?0:1);
+
+    const gMid = db2gain(state.out.mid.gain + state.vol.mid) * (state.out.mid.mute?0:1);
+
+    const gHigh = db2gain(state.out.high.gain + state.vol.high) * (state.out.high.mute?0:1);
+
+    if(lowL.gain) lowL.gain.gain.value = gLow; if(lowR.gain) lowR.gain.gain.value = gLow;
+
+    if(midL.gain) midL.gain.gain.value = gMid; if(midR.gain) midR.gain.gain.value = gMid;
+
+    if(highL.gain) highL.gain.gain.value = gHigh; if(highR.gain) highR.gain.gain.value = gHigh;
+
+    // delays in seconds
+
+    if(lowL.delay) lowL.delay.delayTime.value = state.out.low.delay/1000; if(lowR.delay) lowR.delay.delayTime.value = state.out.low.delay/1000;
+
+    if(midL.delay) midL.delay.delayTime.value = state.out.mid.delay/1000; if(midR.delay) midR.delay.delayTime.value = state.out.mid.delay/1000;
+
+    if(highL.delay) highL.delay.delayTime.value = state.out.high.delay/1000; if(highR.delay) highR.delay.delayTime.value = state.out.high.delay/1000;
+
+    // polarity signs
+
+    if(lowL.polarity) lowL.polarity.gain.value = state.out.low.polarity ? -1 : 1;
+
+    if(lowR.polarity) lowR.polarity.gain.value = state.out.low.polarity ? -1 : 1;
+
+    if(midL.polarity) midL.polarity.gain.value = state.out.mid.polarity ? -1 : 1;
+
+    if(midR.polarity) midR.polarity.gain.value = state.out.mid.polarity ? -1 : 1;
+
+    if(highL.polarity) highL.polarity.gain.value = state.out.high.polarity ? -1 : 1;
+
+    if(highR.polarity) highR.polarity.gain.value = state.out.high.polarity ? -1 : 1;
+
+  }
+
+  // ===== Inputs: File / Mic (NO NOISE) =====
+
+  function ensureFileSplit(){
+
+    if(!splitFile) splitFile = ctx.createChannelSplitter(2);
+
+    if(srcFile){
+
+      try{ srcFile.disconnect(); }catch(e){}
+
+      srcFile.connect(splitFile);
+
+      // connect L and R taps to inputs
+
+      splitFile.connect(chInL, 0);
+
+      splitFile.connect(chInR, 1);
+
+    }
+
+  }
+
+  async function connectFile(file){
+
+    const url = URL.createObjectURL(file);
+
+    if(!audioEl){ audioEl = new Audio(); audioEl.loop = true; audioEl.crossOrigin = 'anonymous'; }
+
+    audioEl.src = url; await audioEl.play();
+
+    if(srcFile) try{ srcFile.disconnect(); }catch(e){}
+
+    srcFile = ctx.createMediaElementSource(audioEl);
+
+    ensureFileSplit();
+
+    state.source.mode = 'file'; state.source.fileName = file.name || 'File'; lcdL.textContent = 'INPUT-A: FILE'; lcdB2.textContent = state.source.fileName; save();
+
+  }
+
+  async function connectMic(){
+
+    try{
+
+      const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+
+      if(srcMic) try{ srcMic.disconnect(); }catch(e){}
+
+      srcMic = ctx.createMediaStreamSource(stream);
+
+      // feed mic to both channels (mono->stereo)
+
+      srcMic.connect(chInL); srcMic.connect(chInR);
+
+      state.source.mode = 'mic'; state.source.fileName = 'MIC'; lcdL.textContent = 'INPUT-A: MIC'; lcdB2.textContent = 'Mic Active'; save();
+
+    }catch(err){
+
+      alert('Mic access gagal atau diblokir.');
+
+    }
+
+  }
+
+  // ===== Visual RTA & meters =====
+
+  function drawRTA(){
+
+    const g = rtaCanvas.getContext('2d'); const W = rtaCanvas.width = rtaCanvas.clientWidth, H = rtaCanvas.height = rtaCanvas.clientHeight;
+
+    const data = new Uint8Array(analyser.frequencyBinCount);
+
+    function loop(){
+
+      g.clearRect(0,0,W,H);
+
+      analyser.getByteFrequencyData(data);
+
+      const n = data.length; const barW = Math.max(1, Math.floor(W/n));
+
+      for(let i=0;i<n;i++){ const y=(data[i]/255)*H; g.fillStyle='rgba(140,200,255,0.85)'; g.fillRect(i*barW, H-y, barW, y); }
+
+      // meters - approximate via frequency bins (cheap)
+
+      const lowSum = data.slice(0, Math.floor(n*0.12)).reduce((a,b)=>a+b,0);
+
+      const midSum = data.slice(Math.floor(n*0.12), Math.floor(n*0.45)).reduce((a,b)=>a+b,0);
+
+      const highSum = data.slice(Math.floor(n*0.45)).reduce((a,b)=>a+b,0);
+
+      const toPct = v => Math.min(100, Math.max(0, Math.round(v / (255 * n) * 3000)));
+
+      mLow.style.width = toPct(lowSum) + '%';
+
+      mMid.style.width = toPct(midSum) + '%';
+
+      mHigh.style.width = toPct(highSum) + '%';
+
+      requestAnimationFrame(loop);
+
+    }
+
+    requestAnimationFrame(loop);
+
+  }
+
+  // ===== Power & Boot =====
+
+  function bootLCD(){
+
+    lcd.classList.remove('lcd-off');
+
+    lcdMID.textContent='ERZET AUDIO';
+
+    lcdL.textContent='ERZET AUDIO'; lcdR.textContent='DLMS WEB (BLUE)';
+
+    lcdB1.textContent='— — — — — — —'; lcdB2.textContent='Self Test';
+
+    let step=0; const seq=[
+
+      ()=>{ lcdMID.textContent='ERZET AUDIO'; lcdB2.textContent='Loading DSP'; },
+
+      ()=>{ lcdMID.textContent='INITIALIZING'; lcdB2.textContent='EQ / XO / RTA'; },
+
+      ()=>{ lcdMID.textContent='READY'; lcdB2.textContent='Tekan OK'; },
+
+      ()=>{ showHome(); }
+
+    ];
+
+    const iv=setInterval(()=>{ seq[step++]?.(); if(step>seq.length) clearInterval(iv); },650);
+
+  }
+
+  function powerOn(){ state.power=true; save(); led.classList.add('on'); ctx.resume(); bootLCD(); }
+
+  function powerOff(){ state.power=false; save(); led.classList.remove('on'); lcd.classList.add('lcd-off'); lcdMID.textContent='POWER OFF'; lcdL.textContent='INPUT: —'; lcdR.textContent='SAMPLE: 48 kHz'; lcdB1.textContent='MODE: —'; lcdB2.textContent='—'; try{ ctx.suspend(); }catch(e){} }
+
+  powerToggle.checked = !!state.power; if(state.power) powerOn(); else powerOff();
+
+  powerToggle.addEventListener('change', ()=>{ powerToggle.checked ? powerOn() : powerOff(); });
+
+  // ===== Menu system =====
+
+  const HOME_ITEMS = ['Input/Routing','Parametric EQ','Crossover','Dynamics','Volume Control','Utility','Presets'];
+
+  function showHome(){ state.ui.page='home'; state.ui.idx=0; state.ui.edit=false; save(); renderHome(); }
+
+  function renderHome(){
+
+    $('#lcdMID').innerHTML = '<div class="selrow" id="homeRow"></div>'; const cont = $('#homeRow');
+
+    HOME_ITEMS.forEach((t,i)=>{ const chip=document.createElement('div'); chip.className='selchip'+(i===state.ui.idx?' active':''); chip.textContent=t; cont.appendChild(chip); });
+
+    lcdL.textContent = 'MENU: HOME'; lcdR.textContent='SAMPLE: 48 kHz';
+
+    lcdB1.textContent = 'Putar/◀▶: Pilih'; lcdB2.textContent='OK: Enter • BACK: Kembali';
+
+    encVal.textContent='Fokus: HOME';
+
+  }
+
+  function homeEnter(){ [pageInput,pageEQ,pageXO,pageDyn,pageVOL,pageUtil,pagePresets][state.ui.idx](); }
+
+  // ===== Input & Routing page (with Mic option, NO noise) =====
+
+  function pageInput(){ state.ui.page='input'; state.ui.cursor=0; state.ui.edit=false; save(); renderInput(); }
+
+  function renderInput(){
+
+    const items = ['Source (None/File/Mic)','Open File (A)','Use Mic (A)','Routing: Low In','Routing: Mid In','Routing: High In','Polarity: Low','Polarity: Mid','Polarity: High'];
+
+    const vals = [ state.source.mode.toUpperCase(), '—', '—', state.routing.low, state.routing.mid, state.routing.high, state.out.low.polarity?'INV':'NORM', state.out.mid.polarity?'INV':'NORM', state.out.high.polarity?'INV':'NORM' ];
+
+    let html = '<div class="lcd-text" style="font-size:15px;line-height:1.7">';
+
+    for(let i=0;i<items.length;i++){
+
+      html += `<div>${i===state.ui.cursor?'<span style="color:#9ff">></span>':'&nbsp;'} ${items[i]} <span style="float:right;color:var(--lcdHi)">${vals[i]}</span></div>`;
+
+    }
+
+    html += '</div>'; $('#lcdMID').innerHTML = html; lcdL.textContent='INPUT & ROUTING'; lcdB1.textContent = state.source.mode==='file' ? ('FILE: '+state.source.fileName) : (state.source.mode==='mic'?'MIC ACTIVE':'NO INPUT'); lcdB2.textContent='▲▼: Pindah • OK: Pilih • BACK';
+
+  }
+
+  function inputOK(){
+
+    const c = state.ui.cursor;
+
+    if(c===0){
+
+      // cycle mode none -> file -> mic
+
+      state.source.mode = (state.source.mode==='none'?'file':(state.source.mode==='file'?'mic':'none'));
+
+      if(state.source.mode==='mic') connectMic();
+
+      save(); renderInput();
+
+    } else if(c===1){ fileInput.click(); }
+
+    else if(c===2){ connectMic(); }
+
+    else if(c>=3 && c<=5){
+
+      const key = (c===3?'low':(c===4?'mid':'high'));
+
+      state.routing[key] = (state.routing[key]==='A'?'B':'A'); save(); renderInput();
+
+    } else if(c>=6 && c<=8){
+
+      const key = (c===6?'low':(c===7?'mid':'high'));
+
+      state.out[key].polarity = !state.out[key].polarity;
+
+      applyOutParams(); save(); renderInput();
+
+    }
+
+  }
+
+  fileInput.addEventListener('change', e => { const f = e.target.files[0]; if(!f) return; if(!state.power){ powerToggle.checked=true; powerOn(); } connectFile(f).then(()=>{ renderInput(); }); });
+
+  // ===== Parametric EQ =====
+
+  function pageEQ(){ state.ui.page='eq'; state.ui.cursor=0; state.ui.edit=false; state.ui.sub='band'; save(); renderEQ(); }
+
+  function renderEQ(){
+
+    const curBand = (state.ui.cursor%8+8)%8; const band = state.eq[curBand];
+
+    lcdL.textContent=`EQ • Band ${curBand+1}`;
+
+    lcdR.textContent=`F:${Math.round(band.f)}Hz G:${band.g.toFixed(1)}dB Q:${band.q.toFixed(1)}`;
+
+    const wrap = document.createElement('div'); wrap.className='eqwrap';
+
+    const cvs = document.createElement('canvas'); cvs.id='eqCanvas'; wrap.appendChild(cvs);
+
+    const inf = document.createElement('div'); inf.className='eqinfo';
+
+    inf.innerHTML = `<div>${state.ui.sub==='band'?'<span style="color:#9ff">></span>':'&nbsp;'} Band: ${curBand+1}</div>
+
+    <div>${state.ui.sub==='freq'?'<span style="color:#9ff">></span>':'&nbsp;'} Freq: ${Math.round(band.f)} Hz</div>
+
+    <div>${state.ui.sub==='gain'?'<span style="color:#9ff">></span>':'&nbsp;'} Gain: ${band.g.toFixed(1)} dB</div>
+
+    <div>${state.ui.sub==='q'?'<span style="color:#9ff">></span>':'&nbsp;'} Q: ${band.q.toFixed(1)}</div>`;
+
+    wrap.appendChild(inf); const mid = $('#lcdMID'); mid.innerHTML=''; mid.appendChild(wrap);
+
+    drawEQCurve(cvs); lcdB1.textContent = state.ui.edit? '◀▶: Adjust • OK: Simpan' : '▲▼: Pindah • OK: Edit'; lcdB2.textContent = 'BACK • Double-Click knob: Reset band';
+
+  }
+
+  function drawEQCurve(canvas){
+
+    const g = canvas.getContext('2d'); const W = canvas.width = canvas.clientWidth, H = canvas.height = canvas.clientHeight;
+
+    g.clearRect(0,0,W,H);
+
+    g.strokeStyle='rgba(140,200,255,.25)'; g.lineWidth=1;
+
+    for(let i=1;i<6;i++){ const y=H*i/6; g.beginPath(); g.moveTo(0,y); g.lineTo(W,y); g.stroke(); }
+
+    const freqs=[20,31,62,125,250,500,1000,2000,4000,8000,16000];
+
+    for(let f of freqs){ const x = Math.log10(f/20)/Math.log10(20000/20)*W; g.beginPath(); g.moveTo(x,0); g.lineTo(x,H); g.stroke(); }
+
+    const N=256; const frq=new Float32Array(N); const mag=new Float32Array(N); const ph=new Float32Array(N);
+
+    let mags = new Float32Array(N); for(let i=0;i<N;i++){ mags[i]=1; frq[i]=20*Math.pow(20000/20, i/(N-1)); }
+
+    state.eq.forEach((b)=>{
+
+      const n = ctx.createBiquadFilter(); n.type='peaking'; n.frequency.value=b.f; n.gain.value=b.g; n.Q.value=b.q;
+
+      n.getFrequencyResponse(frq, mag, ph);
+
+      for(let k=0;k<N;k++) mags[k] *= mag[k];
+
+    });
+
+    g.strokeStyle='rgba(185,235,255,.95)'; g.lineWidth=2; g.beginPath();
+
+    for(let i=0;i<N;i++){
+
+      const x = i/(N-1)*W; const db = lin2db(mags[i]); const y = H*(0.5 - db/30);
+
+      if(i===0) g.moveTo(x,y); else g.lineTo(x,y);
+
+    }
+
+    g.stroke();
+
+  }
+
+  function eqRotate(dir){
+
+    const curBand=(state.ui.cursor%8+8)%8; const band = state.eq[curBand];
+
+    if(!state.ui.edit){
+
+      const order=['band','freq','gain','q']; let i=order.indexOf(state.ui.sub); i+=dir; i=(i+order.length)%order.length; state.ui.sub=order[i];
+
+    } else {
+
+      if(state.ui.sub==='band'){ state.ui.cursor=(state.ui.cursor+dir+8)%8; }
+
+      if(state.ui.sub==='freq'){ band.f = clamp(band.f * (dir>0?1.03:0.97), 20, 20000); }
+
+      if(state.ui.sub==='gain'){ band.g = clamp(band.g + (dir>0?0.2:-0.2), -18, 18); }
+
+      if(state.ui.sub==='q'){ band.q = clamp(band.q + (dir>0?0.1:-0.1), 0.2, 10); }
+
+      // apply to EQ nodes if built
+
+      const idx = curBand;
+
+      if(eqL[idx]){ eqL[idx].frequency.value = band.f; eqL[idx].gain.value = band.g; eqL[idx].Q.value = band.q; }
+
+      if(eqR[idx]){ eqR[idx].frequency.value = band.f; eqR[idx].gain.value = band.g; eqR[idx].Q.value = band.q; }
+
+    }
+
+    save(); renderEQ();
+
+  }
+
+  function eqOK(){ state.ui.edit = !state.ui.edit; save(); renderEQ(); }
+
+  function eqReset(){ const curBand=(state.ui.cursor%8+8)%8; state.eq[curBand].g = 0; if(eqL[curBand]) eqL[curBand].gain.value = 0; if(eqR[curBand]) eqR[curBand].gain.value = 0; save(); renderEQ(); }
+
+  // ===== Crossover =====
+
+  function pageXO(){ state.ui.page='xo'; state.ui.cursor=0; state.ui.edit=false; state.ui.sub='mode'; save(); renderXO(); }
+
+  function renderXO(){
+
+    const items = ['Mode','Type','Slope','F1 Split','F2 Split','Low Gain','Low Delay','Mid Gain','Mid Delay','High Gain','High Delay'];
+
+    const v = state.xover; const o = state.out;
+
+    const vals = [ v.mode.toUpperCase(), v.type, v.slope+' dB/oct', Math.round(v.f1), Math.round(v.f2),
+
+      o.low.gain.toFixed(1)+' dB', o.low.delay.toFixed(1)+' ms',
+
+      (v.mode==='3way'? o.mid.gain.toFixed(1)+' dB' : '—'),
+
+      (v.mode==='3way'? o.mid.delay.toFixed(1)+' ms' : '—'),
+
+      o.high.gain.toFixed(1)+' dB', o.high.delay.toFixed(1)+' ms' ];
+
+    const wrap = document.createElement('div'); wrap.className='xowrap';
+
+    const cvs = document.createElement('canvas'); cvs.id='xoCanvas'; wrap.appendChild(cvs);
+
+    const info = document.createElement('div'); info.className='xoinfo';
+
+    info.innerHTML = `<div>${state.ui.cursor===0?'<span style="color:#9ff">></span>':'&nbsp;'} Mode: ${vals[0]}</div>
+
+    <div>${state.ui.cursor===1?'<span style="color:#9ff">></span>':'&nbsp;'} Type: ${vals[1]}</div>
+
+    <div>${state.ui.cursor===2?'<span style="color:#9ff">></span>':'&nbsp;'} Slope: ${vals[2]}</div>
+
+    <div>${state.ui.cursor===3?'<span style="color:#9ff">></span>':'&nbsp;'} F1: ${vals[3]} Hz</div>
+
+    <div>${v.mode==='3way' ? (state.ui.cursor===4?'<span style="color:#9ff">></span>':'&nbsp;')+' F2: '+vals[4]+' Hz' : 'F2: —'}</div>`;
+
+    wrap.appendChild(info); const mid = $('#lcdMID'); mid.innerHTML=''; mid.appendChild(wrap);
+
+    drawXOCanvas(cvs);
+
+    // output rows below
+
+    let html = '<div class="lcd-text" style="font-size:15px;line-height:1.7;margin-top:8px">';
+
+    const rows = (v.mode==='3way') ? [['Low Gain',vals[5]],['Low Delay',vals[6]],['Mid Gain',vals[7]],['Mid Delay',vals[8]],['High Gain',vals[9]],['High Delay',vals[10]]] : [['Low Gain',vals[5]],['Low Delay',vals[6]],['High Gain',vals[9]],['High Delay',vals[10]]];
+
+    rows.forEach((r,i)=>{
+
+      const idx = 5 + i;
+
+      html += `<div>${state.ui.cursor===idx?'<span style="color:#9ff">></span>':'&nbsp;'} ${r[0]} <span style="float:right;color:var(--lcdHi)">${r[1]}</span></div>`;
+
+    });
+
+    html += '</div>'; const d = document.createElement('div'); d.innerHTML = html; mid.appendChild(d);
+
+    lcdL.textContent='CROSSOVER'; lcdR.textContent=`${v.type} • ${v.mode==='3way'?'3-WAY':'2-WAY'} • LR${v.slope}`; lcdB1.textContent = state.ui.edit?'◀▶: Adjust • OK: Simpan' : '▲▼: Pindah • OK: Edit'; lcdB2.textContent='BACK';
+
+  }
+
+  function drawXOCanvas(canvas){
+
+    const g = canvas.getContext('2d'); const W = canvas.width = canvas.clientWidth, H = canvas.height = canvas.clientHeight;
+
+    g.clearRect(0,0,W,H);
+
+    g.strokeStyle='rgba(140,200,255,.25)'; for(let i=1;i<6;i++){ const y=H*i/6; g.beginPath(); g.moveTo(0,y); g.lineTo(W,y); g.stroke(); }
+
+    function xForF(f){ return Math.log10(f/20)/Math.log10(20000/20)*W; }
+
+    const x1 = xForF(state.xover.f1); const x2 = xForF(state.xover.mode==='3way'?state.xover.f2: Math.min(20000, state.xover.f1*2));
+
+    g.fillStyle='rgba(120,190,255,.12)'; g.fillRect(0,0,x1,H);
+
+    if(state.xover.mode==='3way') g.fillStyle='rgba(120,220,255,.08)'; if(state.xover.mode==='3way') g.fillRect(x1,0,Math.max(0,x2-x1),H);
+
+    g.fillStyle='rgba(160,230,255,.12)'; g.fillRect(x2,0,W-x2,H);
+
+    g.strokeStyle='rgba(185,235,255,.95)'; g.beginPath(); g.moveTo(x1,0); g.lineTo(x1,H); g.stroke(); if(state.xover.mode==='3way'){ g.beginPath(); g.moveTo(x2,0); g.lineTo(x2,H); g.stroke(); }
+
+    g.fillStyle='rgba(210,235,255,.95)'; g.font='12px monospace'; g.fillText(`F1=${Math.round(state.xover.f1)}Hz`, x1+6, 14); if(state.xover.mode==='3way') g.fillText(`F2=${Math.round(state.xover.f2)}Hz`, x2+6, 28);
+
+  }
+
+  function xoOK(){ state.ui.edit = !state.ui.edit; save(); renderXO(); }
+
+  function xoRotate(dir){
+
+    const v = state.xover, o = state.out;
+
+    const maxIdx = (v.mode==='3way')? 10 : 8;
+
+    if(!state.ui.edit){ let cur = state.ui.cursor; cur += dir; if(cur<0) cur = maxIdx; if(cur>maxIdx) cur = 0; state.ui.cursor = cur; renderXO(); }
+
+    else {
+
+      const idx = state.ui.cursor;
+
+      const apply = ()=>{ applyOutParams(); save(); renderXO(); };
+
+      if(idx===0){ v.mode = (v.mode==='3way'?'2way':'3way'); rebuildProcessing(); apply(); return; }
+
+      if(idx===1){ const arr = ['Linkwitz-Riley','Butterworth','Bessel']; v.type = arr[(arr.indexOf(v.type)+dir+arr.length)%arr.length]; rebuildProcessing(); apply(); return; }
+
+      if(idx===2){ v.slope = (v.slope===12?24:(v.slope===24?48:12)); rebuildProcessing(); apply(); return; }
+
+      if(idx===3){ v.f1 = clamp(v.f1 * (dir>0?1.03:0.97), 40, 1000); rebuildProcessing(); apply(); return; }
+
+      if(idx===4 && v.mode==='3way'){ v.f2 = clamp(v.f2 * (dir>0?1.03:0.97), 800, 10000); rebuildProcessing(); apply(); return; }
+
+      // outputs mapping
+
+      const map3 = [ ['low','gain'], ['low','delay'], ['mid','gain'], ['mid','delay'], ['high','gain'], ['high','delay'] ];
+
+      const map2 = [ ['low','gain'], ['low','delay'], ['high','gain'], ['high','delay'] ];
+
+      const start = 5; const map = (v.mode==='3way')? map3 : map2; const pick = idx - start;
+
+      if(pick>=0 && pick<map.length){
+
+        const [band, what] = map[pick];
+
+        if(what==='gain'){ o[band].gain = clamp(o[band].gain + (dir>0?0.2:-0.2), -24, 12); }
+
+        else { o[band].delay = clamp(o[band].delay + (dir>0?5:-5), 0, 500); }
+
+        apply();
+
+      }
+
+    }
+
+  }
+
+  // ===== Dynamics =====
+
+  function pageDyn(){ state.ui.page='dyn'; state.ui.cursor=0; state.ui.edit=false; save(); renderDyn(); }
+
+  function renderDyn(){
+
+    const c=state.dyn.cmp, l=state.dyn.lim;
+
+    const rows=[ ['Comp Threshold', c.th+' dB'], ['Comp Ratio', c.ra+':1'], ['Attack', c.at+' s'], ['Release', c.rl+' s'], ['Knee', c.kn+' dB'], ['Limiter Thresh', l.th+' dB'], ['Limiter Rel', (l.rl||0.05)+' s'] ];
+
+    let html='<div class="lcd-text" style="font-size:15px;line-height:1.7">';
+
+    rows.forEach((r,i)=>{ html+=`<div>${i===state.ui.cursor?'<span style="color:#9ff">></span>':'&nbsp;'} ${r[0]} <span style="float:right;color:var(--lcdHi)">${r[1]}</span></div>`; });
+
+    html += '</div>'; $('#lcdMID').innerHTML = html; lcdL.textContent='DYNAMICS'; lcdR.textContent='COMP + LIMITER'; lcdB1.textContent= state.ui.edit?'◀▶: Adjust • OK: Simpan':'▲▼: Pindah • OK: Edit'; lcdB2.textContent='BACK';
+
+  }
+
+  function dynOK(){ state.ui.edit = !state.ui.edit; save(); renderDyn(); }
+
+  function dynRotate(dir){
+
+    const c=state.dyn.cmp, l=state.dyn.lim;
+
+    if(!state.ui.edit){ state.ui.cursor=(state.ui.cursor+dir+7)%7; }
+
+    else {
+
+      switch(state.ui.cursor){
+
+        case 0: c.th = clamp(c.th + (dir>0?1:-1), -60, 0); if(compNode) compNode.threshold.value = c.th; break;
+
+        case 1: c.ra = clamp(parseFloat((c.ra + (dir>0?0.1:-0.1)).toFixed(1)), 1, 20); if(compNode) compNode.ratio.value = c.ra; break;
+
+        case 2: c.at = clamp(parseFloat((c.at + (dir>0?0.001:-0.001)).toFixed(3)), 0.001, 0.1); if(compNode) compNode.attack.value = c.at; break;
+
+        case 3: c.rl = clamp(parseFloat((c.rl + (dir>0?0.01:-0.01)).toFixed(2)), 0.01, 1); if(compNode) compNode.release.value = c.rl; break;
+
+        case 4: c.kn = clamp(c.kn + (dir>0?1:-1), 0, 40); if(compNode) compNode.knee.value = c.kn; break;
+
+        case 5: l.th = clamp(l.th + (dir>0?0.5:-0.5), -20, 0); if(limNode) limNode.threshold.value = l.th; break;
+
+        case 6: l.rl = clamp(parseFloat(((l.rl||0.05) + (dir>0?0.01:-0.01)).toFixed(2)), 0.01, 1); if(limNode) limNode.release.value = l.rl; break;
+
+      }
+
+    }
+
+    save(); renderDyn();
+
+  }
+
+  // ===== Volume =====
+
+  function pageVOL(){ state.ui.page='vol'; state.ui.cursor=0; state.ui.edit=false; save(); renderVOL(); }
+
+  function renderVOL(){
+
+    const names=['Low','Sub','Mid','High']; const keys=['low','sub','mid','high'];
+
+    let html='<div class="lcd-text" style="font-size:15px;line-height:1.7">';
+
+    for(let i=0;i<names.length;i++){
+
+      const key=keys[i]; const val=state.vol[key];
+
+      const width = clamp(Math.round((val+24)/48*100), 0, 100);
+
+      html += `<div>${i===state.ui.cursor?'<span style="color:#9ff">></span>':'&nbsp;'} ${names[i]}: <span style="color:var(--lcdHi)">${val.toFixed(1)} dB</span><div style="height:12px;border:1px solid rgba(120,190,255,.35);border-radius:6px;background:rgba(6,18,36,.6);overflow:hidden;margin-top:4px;margin-bottom:8px"><div style="height:100%;width:${width}%;background:linear-gradient(90deg,#6ff19a,#bdf9ff)"></div></div></div>`;
+
+    }
+
+    html+='</div>'; $('#lcdMID').innerHTML = html; lcdL.textContent='VOLUME CONTROL'; lcdR.textContent='Low/Sub/Mid/High'; lcdB1.textContent='◀▶: -/+ • OK: Edit Toggle'; lcdB2.textContent='BACK';
+
+  }
+
+  function volOK(){ state.ui.edit = !state.ui.edit; save(); renderVOL(); }
+
+  function volRotate(dir){
+
+    if(!state.ui.edit){ state.ui.cursor = (state.ui.cursor + dir + 4) % 4; renderVOL(); }
+
+    else {
+
+      const map = ['low','sub','mid','high']; const key = map[state.ui.cursor];
+
+      state.vol[key] = clamp(parseFloat((state.vol[key] + (dir>0?0.5:-0.5)).toFixed(1)), -24, 24);
+
+      applyOutParams(); save(); renderVOL();
+
+    }
+
+  }
+
+  // ===== Utility (Stereo Link + Polarity list) =====
+
+  function pageUtil(){ state.ui.page='util'; state.ui.cursor=0; state.ui.edit=false; save(); renderUtil(); }
+
+  function renderUtil(){
+
+    const rows = [ ['Stereo Link', state.stereoLink ? 'ON' : 'OFF'], ['About', 'ERZET AUDIO DLMS Web (Blue) v7'], ['Reset All', '—'] ];
+
+    let html = '<div class="lcd-text" style="font-size:15px;line-height:1.7">';
+
+    rows.forEach((r,i)=> html += `<div>${i===state.ui.cursor?'<span style="color:#9ff">></span>':'&nbsp;'} ${r[0]} <span style="float:right;color:var(--lcdHi)">${r[1]}</span></div>`);
+
+    html += '</div>'; $('#lcdMID').innerHTML = html; lcdL.textContent='UTILITY'; lcdR.textContent='—'; lcdB1.textContent = state.ui.edit?'OK: Toggle/Confirm':'▲▼: Pindah • OK: Pilih'; lcdB2.textContent='BACK';
+
+  }
+
+  function utilOK(){
+
+    if(state.ui.cursor===0){ state.stereoLink = !state.stereoLink; save(); renderUtil(); }
+
+    if(state.ui.cursor===2){ if(confirm('Reset semua pengaturan?')){ localStorage.removeItem('dlms-blue-v7'); location.reload(); } }
+
+  }
+
+  // ===== Presets =====
+
+  function pagePresets(){ state.ui.page='presets'; state.ui.cursor=0; save(); renderPresets(); }
+
+  function renderPresets(){ const rows=[ ['Save Preset','→ tombol SAVE'], ['Load Preset','→ tombol LOAD'] ]; let html='<div class="lcd-text" style="font-size:15px;line-height:1.7">'; rows.forEach((r,i)=> html += `<div>${i===state.ui.cursor?'<span style="color:#9ff">></span>':'&nbsp;'} ${r[0]} <span style="float:right;color:var(--lcdHi)">${r[1]}</span></div>`); html += '</div>'; $('#lcdMID').innerHTML = html; lcdL.textContent='PRESETS'; lcdR.textContent='JSON'; lcdB1.textContent='Gunakan tombol di panel'; lcdB2.textContent='BACK'; }
+
+  $('#btnSave').addEventListener('click', ()=>{ const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='erzet-dlms-blue-v7.json'; a.click(); });
+
+  $('#presetFile').addEventListener('change', e=>{ const f = e.target.files[0]; if(!f) return; const r = new FileReader(); r.onload = ()=>{ try{ Object.assign(state, JSON.parse(r.result)); save(); rebuildProcessing(); showHome(); }catch(err){ alert('Preset tidak valid'); } }; r.readAsText(f); });
+
+  // ===== Encoder handling & nav =====
+
+  let dragging=false, lastAng=0, pressTimer=null, lastClickTime=0, encRot=0;
+
+  function encAngle(e){ const r = enc.getBoundingClientRect(); const cx = r.left + r.width/2, cy = r.top + r.height/2; return Math.atan2(e.clientY-cy, e.clientX-cx); }
+
+  function setEncRot(delta){ encRot += delta*24; if(encRot>9999) encRot=0; if(encRot<-9999) encRot=0; encCap.style.setProperty('--rot', encRot+'deg'); }
+
+  function rotate(dir){
+
+    setEncRot(dir);
+
+    switch(state.ui.page){
+
+      case 'home': state.ui.idx = (state.ui.idx + dir + HOME_ITEMS.length) % HOME_ITEMS.length; renderHome(); break;
+
+      case 'input': state.ui.cursor = (state.ui.cursor + dir + 9) % 9; renderInput(); break;
+
+      case 'eq': eqRotate(dir); break;
+
+      case 'xo': xoRotate(dir); break;
+
+      case 'dyn': dynRotate(dir); break;
+
+      case 'vol': volRotate(dir); break;
+
+      case 'util': state.ui.cursor = (state.ui.cursor + dir + 3) % 3; renderUtil(); break;
+
+      case 'presets': state.ui.cursor = (state.ui.cursor + dir + 2) % 2; renderPresets(); break;
+
+    }
+
+  }
+
+  function encOK(){ switch(state.ui.page){ case 'home': homeEnter(); break; case 'input': inputOK(); break; case 'eq': eqOK(); break; case 'xo': xoOK(); break; case 'dyn': dynOK(); break; case 'vol': volOK(); break; case 'util': utilOK(); break; } }
+
+  function encBack(){ if(state.ui.page==='home') return; showHome(); }
+
+  enc.addEventListener('pointerdown', e=>{ dragging=true; enc.setPointerCapture(e.pointerId); lastAng = encAngle(e); pressTimer = setTimeout(()=>{ encBack(); }, 1000); });
+
+  enc.addEventListener('pointermove', e=>{ if(!dragging) return; const a = encAngle(e); const delta = a - lastAng; lastAng = a; if(Math.abs(delta)>0.12) rotate(delta>0?+1:-1); });
+
+  enc.addEventListener('pointerup', e=>{ dragging=false; clearTimeout(pressTimer); const now = performance.now(); if(now - lastClickTime < 300){ if(state.ui.page==='eq') eqReset(); } else { encOK(); } lastClickTime = now; });
+
+  enc.addEventListener('wheel', e=>{ rotate(e.deltaY>0?+1:-1); });
+
+  // buttons
+
+  $('#btnLeft').addEventListener('click', ()=>rotate(-1));
+
+  $('#btnRight').addEventListener('click', ()=>rotate(+1));
+
+  $('#btnUp').addEventListener('click', ()=>rotate(-1));
+
+  $('#btnDown').addEventListener('click', ()=>rotate(+1));
+
+  $('#btnOk').addEventListener('click', encOK);
+
+  $('#btnBack').addEventListener('click', encBack);
+
+  // keyboard
+
+  window.addEventListener('keydown', e=>{ if(e.key==='ArrowLeft') rotate(-1); if(e.key==='ArrowRight') rotate(+1); if(e.key==='ArrowUp') rotate(-1); if(e.key==='ArrowDown') rotate(+1); if(e.key==='Enter') encOK(); if(e.key==='Escape' || e.key==='Backspace') encBack(); });
+
+  // ===== Build & init =====
+
+  buildBase();
+
+  rebuildProcessing();
+
+  drawRTA();
+
+  // Default: no noise, no file -> silence until you load file or mic
+
+  // Remember power
+
+  if(state.power) bootLCD(); else { lcd.classList.add('lcd-off'); }
+
+  // helper: top preset button goes to home
+
+  btnPreset.addEventListener('click', showHome);
+
+  // Expose connectFile and connectMic to file inputs
+
+  // (fileInput listener already set above)
+
+})();
+
+</script>
+
+</body>
+
+</html>
+<script>
+/* --- Start Custom JavaScript --- */
+/* Welcome! Start your JavaScript here */
+/* This will be included in <script> tags when you save the project */
+
+function showAlert() {
+  alert("Button clicked from JavaScript!");
+}
+
+// You can add more JS here, e.g., for interactivity
+document.addEventListener('DOMContentLoaded', () => {
+  const myBox = document.getElementById('my-box');
+  if (myBox) {
+    myBox.addEventListener('click', () => {
+      console.log('Box clicked!');
+      myBox.style.backgroundColor = '#666';
+    });
+  }
+});
+
+/* --- End Custom JavaScript --- */
+    </script>
+</body>
+</html>
